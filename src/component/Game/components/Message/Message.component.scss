@@ -1,0 +1,15 @@
+.message {
+  display: block;
+  margin: 2rem 0;
+  padding: 1.2rem 2rem;
+  font-size: 1.3rem;
+  width: 100%;
+
+  &--succes{
+    color:  rgb(65, 184, 131);
+  }
+
+  &--fail{
+    color: #FC6440;
+  }
+}

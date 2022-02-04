@@ -1,0 +1,31 @@
+.tab {
+  display: table;
+  margin: 3rem auto 0;
+  border-collapse: separate;
+  border-spacing: .5rem;
+
+
+  @media screen and (min-width: 768px) {
+    border-spacing: 1rem;
+  }
+
+  &__item {
+    display: table-cell;
+    background-color: #9e9e9e;
+    width: 3rem;
+    height: 3rem;
+    font-size: 2rem;
+
+    &--find {
+      background-color: chartreuse;
+    }
+
+    &--not-placed {
+      background-color: orange;
+    }
+
+    &--error {
+      background-color: orangered;
+    }
+  }
+}

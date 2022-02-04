@@ -1,0 +1,18 @@
+.new-game-button {
+  cursor: pointer;
+  margin: 2rem 0;
+  padding: 1.2rem 2rem;
+  font-size: 1rem;
+  outline: transparent;
+  min-width: 16%;
+  text-transform: uppercase;
+  background-color: transparent;
+  color: #199fe5;
+  border: 1px solid #199fe5;
+  border-radius: .5rem;
+
+  &:hover {
+    color: #19dde5;
+    border-color: #19dde5;
+  }
+}
