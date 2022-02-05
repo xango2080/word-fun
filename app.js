@@ -2,13 +2,11 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 
-console.log("test 1");
+app.get('/fr', function (request, response) {
 
-app.get('/', function (request, response) {
-
-	console.log("test 2");
+	console.log("launch dico fr");
 	var name = 'dicofr.txt';
-	var m = fs.readFileSync(name, {encoding: "utf8"});
+	var m = fs.readFileSync("./dico/" + name, {encoding: "utf8"});
 	var textByLine = m.split(";");
 
 	var maj = new RegExp('[A-Z]');
@@ -17,7 +15,6 @@ app.get('/', function (request, response) {
 	var finishByS = new RegExp('[w{s}]');
 
 	const nameWihtoutmaj = textByLine.reduce((p, c) => {
-		console.log(c, !maj.test(c), !tiret.test(c));
 		c.length >= 5
 		&& !maj.test(c)
 		&& !tiret.test(c)
@@ -29,8 +26,27 @@ app.get('/', function (request, response) {
 	}, []);
 
 
-	fs.writeFileSync("nameWihtoutmaj.txt", JSON.stringify(nameWihtoutmaj));
+	fs.writeFileSync("./src/dicoFr.json", JSON.stringify(nameWihtoutmaj));
+	console.log("finish dico fr");
+});
 
+app.get('/en', function (request, response) {
+
+	console.log("launch dico en");
+	var name = 'dicoen.txt';
+	var m = fs.readFileSync("./dico/" + name, {encoding: "utf8"});
+	var textByLine = m.split("\r\n");
+
+	const nameWihtoutmaj = textByLine.reduce((p, c) => {
+		c.length >= 5
+		&& p.push(c.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase());
+
+		return p;
+	}, []);
+
+
+	fs.writeFileSync("./src/dicoEn.json", JSON.stringify(nameWihtoutmaj));
+	console.log("finish dico en");
 });
 
 app.listen('8000');

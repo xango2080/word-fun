@@ -13,13 +13,14 @@ button, input {
   border-radius: .5rem;
 }
 
+select,
 input {
   padding: 1.2rem 2rem;
   font-size: 1rem;
   outline: transparent;
   text-transform: uppercase;
   border: solid .1rem #27adf2;
-  background-color: transparent;
+  background-color: #282c34;
   color: white;
 
   &::placeholder {
@@ -31,6 +32,13 @@ input {
     color: #434A54;
     border: solid .1rem #434A54;
   }
+}
+
+select {
+  appearance: none;
+  background: url("./assets/dropdown.svg") no-repeat right;
+  background-position-x: 90%;
+  background-color: #282c34;
 }
 
 body {

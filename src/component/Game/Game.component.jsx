@@ -2,7 +2,7 @@ import "./Game.component.scss"
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../App.context";
 import {Counter} from "./components/Counter/Counter.component";
-import {Input} from "./components/Input/Input.component";
+import {Form} from "./components/Form/Form.component";
 import {Tab} from "./components/Tab/Tab.component";
 import {GameContextProvider} from "./context/Game.context";
 import {NewGameButton} from "./components/NewGameButton/NewGameButton.component";
@@ -10,7 +10,7 @@ import {Message} from "./components/Message/Message.component";
 
 export const Game = () => {
 
-	const {isStarted, isReady, startGame, wordInFrench, confGame} = useContext(AppContext);
+	const {isStarted, isReady, startGame, words, confGame} = useContext(AppContext);
 
 	const [wordToDiscover, setWordToDiscover] = useState(null);
 
@@ -23,21 +23,24 @@ export const Game = () => {
 	}, [isReady]);
 
 	function calculateNewWord() {
-		return (wordInFrench[Math.floor(Math.random() * (wordInFrench.length - 0 + 1))])
+		return (words[Math.floor(Math.random() * (words.length - 0 + 1))])
 	}
 
 	function setNewWord() {
 		setWordToDiscover(calculateNewWord())
 	}
 
+	console.log("reload game")
+
 	return (
 		<div className="game">
-			{isStarted && (
+			{isStarted && wordToDiscover && (
 				<GameContextProvider word={wordToDiscover} confGame={confGame}>
 					<Counter/>
-					<Input/>
-					<Tab/>
-
+					<div className="game__wrapper">
+						<Form/>
+						<Tab/>
+					</div>
 					<Message/>
 					<NewGameButton onClick={setNewWord}>NEW WORD</NewGameButton>
 				</GameContextProvider>

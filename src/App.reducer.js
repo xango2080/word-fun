@@ -1,11 +1,22 @@
+import wordInEnglish from "./dicoEn";
+import wordInFrench from "./dicoFr";
 import React from 'react';
+
+export const LANG_FR = "FR";
+export const LANG_EN = "EN";
+
+const lib = new Map();
+
+lib.set(LANG_FR, wordInFrench);
+lib.set(LANG_EN, wordInEnglish);
 
 export const initialState = {
 	confGame: {
 		pseudo: null,
 		nbChance: 5,
 		time: 20,
-		notimer: false,
+		notimer: true,
+		lang: LANG_FR,
 	},
 	isStarted: false,
 	isStopped: false,
@@ -33,6 +44,7 @@ export const AppContextReducer = (state = initialState, action) => {
 				isReady: true,
 				isStopped: false,
 				isStarted: false,
+				words: lib.get(action.payload.lang)
 			};
 		case GAME_STOPPED:
 			return {

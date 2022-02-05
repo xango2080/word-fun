@@ -38,12 +38,9 @@ export const Counter = () => {
 		return className;
 	}
 
-	console.log(notimer)
 	if (!!notimer) {
 		return null;
 	}
-
-	console.log("test")
 
 	return (
 		<Countdown

@@ -1,4 +1,4 @@
-import React, {useEffect,useReducer} from 'react';
+import React, {useEffect, useReducer} from 'react';
 import {
 	ERROR_CHANCE,
 	GAME_FINISH,
@@ -16,7 +16,7 @@ export default GameContext;
 
 export const GameContextProvider = ({word, confGame, children}) => {
 
-	console.log(word)
+	console.log(word);
 	const [state, dispatch] = useReducer(GameContextReducer, initialState);
 
 	useEffect(() => {
@@ -28,7 +28,7 @@ export const GameContextProvider = ({word, confGame, children}) => {
 	}
 
 	function finishGame(type) {
-		dispatch({type: GAME_FINISH,payload: type})
+		dispatch({type: GAME_FINISH, payload: type})
 	}
 
 	function addProposal(value) {

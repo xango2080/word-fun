@@ -2,6 +2,7 @@ import "./Intro.component.scss"
 import React, {useContext, useRef, useState} from 'react';
 import AppContext from "../../App.context";
 import classnames from "classnames"
+import {LANG_EN, LANG_FR} from "../../App.reducer";
 
 export const Intro = () => {
 
@@ -17,6 +18,7 @@ export const Intro = () => {
 			nbChance: parseInt(ref.current[1].value),
 			time: parseInt(ref.current[2].value),
 			notimer: ref.current[3].value === "true",
+			lang: ref.current[4].value,
 		});
 
 		setSubmit(true);
@@ -80,17 +82,21 @@ export const Intro = () => {
 								<span className="intro__form-label">
 									Temps illimité
 								</span>
-								<input className={classnames("intro__form-input", "intro__form-checkbox",{"intro__form-checkbox--valid": noTimer})}
-									   type="checkbox"
-									   onClick={handleChangeNoTimer}
-									   defaultValue={noTimer}
+								<input
+									className={classnames("intro__form-input", "intro__form-checkbox", {"intro__form-checkbox--valid": noTimer})}
+									type="checkbox"
+									onClick={handleChangeNoTimer}
+									defaultValue={noTimer}
 								/>
 							</label>
 							<label className="intro__input-wrapper">
 							<span className="intro__form-label">
 								Langue souhaitée
 							</span>
-								<input className="intro__form-input" placeholder="Langue" defaultValue="fr"/>
+								<select className="intro__form-input" placeholder="Langue" defaultValue={confGame.lang}>
+									<option value={LANG_FR}>{LANG_FR}</option>
+									<option value={LANG_EN}>{LANG_EN}</option>
+								</select>
 							</label>
 
 
