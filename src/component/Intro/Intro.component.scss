@@ -45,7 +45,7 @@ $LIGHTING_FLAT: 3;
 $primarycolour: #27adf2;
 
 h1 {
-  font-size: 6rem;
+  font-size: 3rem;
   color: #fff;
 
   @include text3d(
@@ -53,11 +53,19 @@ h1 {
           $depth: 8,
           $primaryshadowcolour: adjust-color($primarycolour, $lightness: -10%, $saturation: +20%),
           $shadowopacity: .3);
+
+  @media screen and (min-width: 768px) {
+    font-size: 6rem;
+  }
 }
 
 h2 {
-  font-size: 3rem;
+  font-size: 1.5rem;
   color: #fff;
+
+  @media screen and (min-width: 768px) {
+    font-size: 3rem;
+  }
 }
 
 .intro {

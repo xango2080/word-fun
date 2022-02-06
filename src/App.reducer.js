@@ -7,6 +7,9 @@ export const LANG_EN = "EN";
 
 const lib = new Map();
 
+console.log(wordInFrench);
+console.log(wordInEnglish);
+
 lib.set(LANG_FR, wordInFrench);
 lib.set(LANG_EN, wordInEnglish);
 

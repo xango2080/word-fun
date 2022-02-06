@@ -107,7 +107,7 @@ export const Intro = () => {
 				</>
 			) : (
 				<>
-					<h1>C'est partie</h1>
+					<h1>C'est parti</h1>
 
 					<h2>Pas de chicane dans ma cabane </h2>
 					<button className="intro__reconf" onClick={handleConf}>RECONF</button>

@@ -3,7 +3,7 @@ import React, {useContext} from 'react';
 import GameContext from "../../context/Game.context";
 
 export const Message = () => {
-	const {isOver, isStopped, type} = useContext(GameContext);
+	const {isOver, isStopped, type,word} = useContext(GameContext);
 
 	if (!isOver && !isStopped) {
 		return null;
@@ -16,7 +16,7 @@ export const Message = () => {
 	}
 	if (type === "FAIL") {
 		return (
-			<strong className="message message--fail">Lâche pas la patate</strong>
+			<strong className="message message--fail">Lâche pas la patate : {word}</strong>
 		)
 	}
 

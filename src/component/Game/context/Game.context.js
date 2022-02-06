@@ -16,7 +16,6 @@ export default GameContext;
 
 export const GameContextProvider = ({word, confGame, children}) => {
 
-	console.log(word);
 	const [state, dispatch] = useReducer(GameContextReducer, initialState);
 
 	useEffect(() => {
@@ -36,9 +35,7 @@ export const GameContextProvider = ({word, confGame, children}) => {
 			value = '-'.repeat(word.length);
 		}
 
-		console.log(value);
 		dispatch({type: NEW_PROPOSAL, payload: value});
-
 
 		if (value === word) {
 			finishGame("SUCCES")

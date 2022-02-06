@@ -30,8 +30,6 @@ export const Game = () => {
 		setWordToDiscover(calculateNewWord())
 	}
 
-	console.log("reload game")
-
 	return (
 		<div className="game">
 			{isStarted && wordToDiscover && (
