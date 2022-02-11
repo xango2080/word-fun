@@ -12,10 +12,18 @@ const CreateTd = ({line}) => {
 	const wordSplitted = word.split('');
 	const proposalSplitted = proposal[line] && proposal[line].split('');
 
+	const result = wordSplitted.reduce((res, char) => (res[char] = (res[char] || 0) + 1, res), {});
+
+	for (let i = 0; i < word.length; i++) {
+		if (proposalSplitted && wordSplitted[i] === proposalSplitted[i]) {
+			result[proposalSplitted[i]]--;
+		}
+	}
+
 	for (let i = 0; i < word.length; i++) {
 		let child = "";
 
-		if (i === 0 && (currentTest === line  || proposalSplitted && proposalSplitted[0] === "-")) {
+		if (i === 0 && (currentTest === line || proposalSplitted && proposalSplitted[0] === "-")) {
 			child = wordSplitted[0];
 		} else if (proposalSplitted && proposalSplitted[i] && proposalSplitted[i] !== "-") {
 			child = proposalSplitted[i];
@@ -23,12 +31,18 @@ const CreateTd = ({line}) => {
 
 		const isgood = proposalSplitted && wordSplitted[i] === proposalSplitted[i];
 
+		let notPlaced = false;
+		if (proposalSplitted && wordSplitted[i] !== proposalSplitted[i] && wordSplitted.includes(proposalSplitted[i]) && result[proposalSplitted[i]] > 0) {
+			notPlaced = true;
+			result[proposalSplitted[i]]--;
+		}
+
 		elements.push(
 			<td
 				key={i}
 				className={classnames("tab__item", {
 					"tab__item--find": isgood,
-					"tab__item--not-placed": proposalSplitted && wordSplitted[i] !== proposalSplitted[i] && wordSplitted.includes(proposalSplitted[i]),
+					"tab__item--not-placed": notPlaced,
 					"tab__item--error": proposalSplitted && proposalSplitted[i] === "-",
 				})
 				}

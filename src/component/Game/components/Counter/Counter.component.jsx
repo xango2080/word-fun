@@ -4,22 +4,22 @@ import GameContext from "../../context/Game.context";
 import Countdown from "react-countdown/dist/index";
 
 export const Counter = () => {
-	const {countdownIsFinish, isStopped, pauseGame, secondByChance, notimer} = useContext(GameContext);
+	const {countdownIsFinish, isStopped, pauseGame, currentTest, secondByChance, notimer} = useContext(GameContext);
 
 	const ref = useRef();
 
 	useEffect(() => {
 		!notimer && isStopped && ref.current.stop();
-	}, [isStopped]);
+	}, [currentTest]);
 
 	useEffect(() => {
 		!notimer && pauseGame && ref.current.pause();
-	}, [pauseGame]);
+	}, [currentTest]);
 
 
 	useEffect(() => {
 		!notimer && !pauseGame && ref.current.start();
-	}, [pauseGame]);
+	}, [currentTest]);
 
 
 	function calculateColor(second) {
