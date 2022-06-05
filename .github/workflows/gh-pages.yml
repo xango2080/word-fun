@@ -35,7 +35,7 @@ jobs:
         run: npm install
 
       - name: "Install"
-        run: npm build
+        run: npm run-script build
 
 
       # 3. Déploiement sur les Github Pages
