@@ -1,75 +1,80 @@
 import "./Tab.component.scss";
-import React, {useContext} from 'react';
+import React, {memo, useContext, useMemo} from 'react';
 import GameContext from "../../context/Game.context";
 import classnames from "classnames";
 
-const CreateTd = ({line}) => {
+const CreateTd = memo(({line, currentTest, proposal, wordSplitted, letterCounter}) => {
 
-	const {currentTest, word, proposal} = useContext(GameContext);
+    const proposalSplitted = proposal && [...proposal];
 
-	let elements = [];
+    if (proposalSplitted) {
+        for (let i = 0; i < wordSplitted.length; i++) {
+            if (wordSplitted[i] === proposalSplitted[i]) {
+                letterCounter[proposalSplitted[i]]--;
+            }
+        }
+    }
 
-	const wordSplitted = word.split('');
-	const proposalSplitted = proposal[line] && proposal[line].split('');
 
-	const result = wordSplitted.reduce((res, char) => (res[char] = (res[char] || 0) + 1, res), {});
+    return wordSplitted.map((letter, i) => {
+        let child = "";
 
-	for (let i = 0; i < word.length; i++) {
-		if (proposalSplitted && wordSplitted[i] === proposalSplitted[i]) {
-			result[proposalSplitted[i]]--;
-		}
-	}
+        if (i === 0 && (currentTest === line || proposalSplitted && proposalSplitted[0] === "-")) {
+            child = wordSplitted[0];
+        } else if (proposalSplitted && proposalSplitted[i] && proposalSplitted[i] !== "-") {
+            child = proposalSplitted[i];
+        }
 
-	for (let i = 0; i < word.length; i++) {
-		let child = "";
+        const isgood = proposalSplitted && letter === proposalSplitted[i];
 
-		if (i === 0 && (currentTest === line || proposalSplitted && proposalSplitted[0] === "-")) {
-			child = wordSplitted[0];
-		} else if (proposalSplitted && proposalSplitted[i] && proposalSplitted[i] !== "-") {
-			child = proposalSplitted[i];
-		}
+        let notPlaced = false;
+        if (proposalSplitted && letter !== proposalSplitted[i] && wordSplitted.includes(proposalSplitted[i]) && letterCounter[proposalSplitted[i]] > 0) {
+            notPlaced = true;
+            letterCounter[proposalSplitted[i]]--;
+        }
 
-		const isgood = proposalSplitted && wordSplitted[i] === proposalSplitted[i];
+        return (<td
+                key={i}
+                className={classnames("tab__item", {
+                    "tab__item--find": isgood,
+                    "tab__item--not-placed": notPlaced,
+                    "tab__item--error": proposalSplitted && proposalSplitted[i] === "-",
+                })
+                }
+            >
+                {child}
+            </td>
+        )
+    })
+}, (prev, next) => prev.proposal === next.proposal);
 
-		let notPlaced = false;
-		if (proposalSplitted && wordSplitted[i] !== proposalSplitted[i] && wordSplitted.includes(proposalSplitted[i]) && result[proposalSplitted[i]] > 0) {
-			notPlaced = true;
-			result[proposalSplitted[i]]--;
-		}
-
-		elements.push(
-			<td
-				key={i}
-				className={classnames("tab__item", {
-					"tab__item--find": isgood,
-					"tab__item--not-placed": notPlaced,
-					"tab__item--error": proposalSplitted && proposalSplitted[i] === "-",
-				})
-				}
-			>
-				{child}
-			</td>
-		);
-	}
-	return elements;
-};
-
-function createElements(nbTest) {
-	let elements = [];
-	for (let i = 0; i < nbTest; i++) {
-		elements.push(<tr key={i}><CreateTd line={i}/></tr>);
-	}
-	return elements;
-}
 
 export const Tab = () => {
-	const {nbTest} = useContext(GameContext);
+    const {currentTest, nbTest, word, proposal} = useContext(GameContext);
+    const wordSplitted = useMemo(() => [...word], [word]);
 
-	return (
-		<table className="tab">
-			<tbody>
-			{createElements(nbTest)}
-			</tbody>
-		</table>
-	)
-}
+    const letterCounter = useMemo(() => wordSplitted.reduce(
+        (res, char) => (res[char] = (res[char] || 0) + 1, res),
+        {}
+    ), [wordSplitted]);
+
+    return (
+        <table className="tab">
+            <tbody>
+            {[...Array(nbTest)].map((e, i) => (
+                <tr key={i}>
+                    <CreateTd
+                        line={i}
+                        currentTest={currentTest}
+                        proposal={proposal[i]}
+                        wordSplitted={wordSplitted}
+                        letterCounter={{...letterCounter}}
+                    />
+                </tr>
+            ))}
+            </tbody>
+        </table>
+    )
+};
+
+export default Tab;

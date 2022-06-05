@@ -4,73 +4,61 @@ import GameContext from "../../context/Game.context";
 import Countdown from "react-countdown/dist/index";
 
 export const Counter = () => {
-	const {countdownIsFinish, isStopped, pauseGame, currentTest, secondByChance, notimer} = useContext(GameContext);
+    const {countdownIsFinish, isStopped, pauseGame, currentTest, secondByChance, notimer} = useContext(GameContext);
 
-	const ref = useRef();
+    const ref = useRef();
 
-	useEffect(() => {
-		!notimer && isStopped && ref.current.stop();
-	}, [currentTest]);
+    useEffect(() => {
+        !notimer && isStopped && ref.current.stop();
+        !notimer && pauseGame && ref.current.pause();
+        !notimer && !pauseGame && ref.current.start();
+    }, [currentTest]);
 
-	useEffect(() => {
-		!notimer && pauseGame && ref.current.pause();
-	}, [currentTest]);
+    function calculateColor(second) {
+        const result = second / secondByChance * 100;
 
+        let className = "base-timer";
 
-	useEffect(() => {
-		!notimer && !pauseGame && ref.current.start();
-	}, [currentTest]);
+        if (result >= 60) {
+            className += "--good";
+        } else if (result >= 40) {
+            className += "--warning";
+        } else {
+            className += "--urgency"
+        }
 
+        return className;
+    }
 
-	function calculateColor(second) {
-		const result = second / secondByChance * 100;
+    if (!!notimer) {
+        return null;
+    }
 
-		let className = "base-timer";
-
-		if (result >= 60) {
-			className += "--good";
-		} else if (result >= 40) {
-			className += "--warning";
-		} else {
-			className += "--urgency"
-		}
-
-		return className;
-	}
-
-	if (!!notimer) {
-		return null;
-	}
-
-	return (
-		<Countdown
-			ref={ref}
-			date={Date.now() + secondByChance * 1000}
-			precision={3}
-			intervalDelay={1000}
-			onComplete={countdownIsFinish}
-			renderer={({seconds}) => (
-				<div className={`base-timer ${calculateColor(seconds)}`}>
-					<svg className="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-						<g className="base-timer__circle">
-							<circle className="base-timer__path-elapsed" cx="50" cy="50" r="45"/>
-							<path
-								id="base-timer-path-remaining"
-								strokeDasharray={`${seconds / 60 * 283} 283`}
-								className="base-timer__path-remaining"
-								d="
-          M 50, 50
-          m -45, 0
-          a 45,45 0 1,0 90,0
-          a 45,45 0 1,0 -90,0
-        "
-							/>
-						</g>
-					</svg>
-					<span id="base-timer-label" className="base-timer__label">{seconds}</span>
-				</div>
-			)
-			}
-		/>
-	);
+    return (
+        <Countdown
+            ref={ref}
+            date={Date.now() + secondByChance * 1000}
+            precision={3}
+            intervalDelay={1000}
+            onComplete={countdownIsFinish}
+            renderer={({seconds}) => (
+                <div className={`base-timer ${calculateColor(seconds)}`}>
+                    <svg className="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <g className="base-timer__circle">
+                            <circle className="base-timer__path-elapsed" cx="50" cy="50" r="45"/>
+                            <path
+                                id="base-timer-path-remaining"
+                                strokeDasharray={`${seconds / 60 * 283} 283`}
+                                className="base-timer__path-remaining"
+                                d="M 50, 50 m -45, 0 a 45,45 0 1,0 90,0a 45,45 0 1,0 -90,0"
+                            />
+                        </g>
+                    </svg>
+                    <span id="base-timer-label" className="base-timer__label">{seconds}</span>
+                </div>
+            )}
+        />
+    );
 };
+
+export default Counter;

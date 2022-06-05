@@ -12,4 +12,6 @@ export const NewGameButton = ({children, onClick}) => {
 	return (
 		<button className="new-game-button" onClick={onClick}>{children}</button>
 	)
-}
+};
+
+export default NewGameButton;

@@ -12,7 +12,7 @@ export const Message = () => {
 	if (type === "SUCCES") {
 		return (
 			<strong className="message message--succes">C’est tiguidou</strong>
-		)
+		)   
 	}
 	if (type === "FAIL") {
 		return (
@@ -22,4 +22,6 @@ export const Message = () => {
 
 
 	return null;
-}
+};
+
+export default Message;

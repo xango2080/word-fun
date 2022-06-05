@@ -1,12 +1,12 @@
 import "./Game.component.scss"
 import React, {useContext, useEffect, useState} from 'react';
 import AppContext from "../../App.context";
-import {Counter} from "./components/Counter/Counter.component";
-import {Form} from "./components/Form/Form.component";
-import {Tab} from "./components/Tab/Tab.component";
+import Counter from "./components/Counter/Counter.component";
+import Form from "./components/Form/Form.component";
+import Tab from "./components/Tab/Tab.component";
 import {GameContextProvider} from "./context/Game.context";
-import {NewGameButton} from "./components/NewGameButton/NewGameButton.component";
-import {Message} from "./components/Message/Message.component";
+import NewGameButton from "./components/NewGameButton/NewGameButton.component";
+import Message from "./components/Message/Message.component";
 
 export const Game = () => {
 
@@ -16,9 +16,6 @@ export const Game = () => {
 
 	useEffect(() => {
 		isReady && startGame();
-	}, [isReady]);
-
-	useEffect(() => {
 		isReady && setNewWord();
 	}, [isReady]);
 
